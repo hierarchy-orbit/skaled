@@ -91,7 +91,6 @@ jobs:
             - TARGET=skaled
           after_success:
             - cp skaled/skaled ../scripts/skale_build/executable/
-            - export VERSION=$(cat ../VERSION)
             - export VERSION=$( ../scripts/calculate_version.sh $TRAVIS_BRANCH $VERSION )
             - echo "Version $VERSION"
             - cd ../scripts/skale_build
@@ -126,7 +125,7 @@ jobs:
                 repo: skalenetwork/skaled
                 branch: stable
             - provider: script
-              script: bash ../scripts/skale_build/deploy_image.sh $VERSION $DOCKER_USERNAME $DOCKER_PASSWORD
+              script: bash ../scripts/skale_build/deploy_image.sh $VERSION  $TRAVIS_BRANCH $DOCKER_USERNAME $DOCKER_PASSWORD
               on:
                 repo: skalenetwork/skaled
                 branch:
