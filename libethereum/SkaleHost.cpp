@@ -65,12 +65,12 @@ const int SkaleHost::EXIT_FORCEFULLTY_SECONDS = 20;
 
 std::unique_ptr< ConsensusInterface > DefaultConsensusFactory::create(
     ConsensusExtFace& _extFace ) const {
-#if CONSENSUS
     const auto& nfo = static_cast< const Interface& >( m_client ).blockInfo( LatestBlock );
     auto ts = nfo.timestamp();
+#if CONSENSUS
     return make_unique< ConsensusEngine >( _extFace, m_client.number(), ts );
 #else
-    return make_unique< ConsensusStub >( _extFace, m_client.number() );
+    return make_unique< ConsensusStub >( _extFace, m_client.number(), ts );
 #endif
 }
 
