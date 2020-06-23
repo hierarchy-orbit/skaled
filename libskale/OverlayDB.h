@@ -71,6 +71,9 @@ public:
     dev::s256 storageUsed() const;
     void updateStorageUsage( dev::s256 const& _storageUsed );
 
+    dev::h256 lastTransactionHash() const;
+    void setLastTransactionHash( dev::h256 const& _h );
+
     /// @returns the set containing all accounts currently in use in Ethereum.
     /// @warning This is slowslowslow. Don't use it unless you want to lock the object for seconds
     /// or minutes at a time.
@@ -83,6 +86,7 @@ private:
     std::unordered_map< dev::h160, std::unordered_map< _byte_, dev::bytes > > m_auxiliaryCache;
     std::unordered_map< dev::h160, std::unordered_map< dev::h256, dev::h256 > > m_storageCache;
     dev::s256 storageUsed_ = 0;
+    dev::h256 lastTransactionHash_;
 
     std::shared_ptr< dev::db::DatabaseFace > m_db;
 

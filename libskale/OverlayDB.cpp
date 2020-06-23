@@ -119,6 +119,8 @@ void OverlayDB::commit() {
                     }
                 }
                 writeBatch->insert( toSlice( "storageUsed" ), toSlice( storageUsed_.str() ) );
+                writeBatch->insert(
+                    toSlice( "lastTransactionHash" ), toSlice( lastTransactionHash_ ) );
             }
             try {
                 m_db->commit( std::move( writeBatch ) );
@@ -375,6 +377,7 @@ void OverlayDB::insert(
     }
 }
 
+// TODO maybe set and return same thing?!
 dev::s256 OverlayDB::storageUsed() const {
     if ( m_db ) {
         return dev::s256( m_db->lookup( toSlice( "storageUsed" ) ) );
@@ -385,5 +388,17 @@ dev::s256 OverlayDB::storageUsed() const {
 void OverlayDB::updateStorageUsage( dev::s256 const& _storageUsed ) {
     storageUsed_ = _storageUsed;
 }
+
+dev::h256 OverlayDB::lastTransactionHash() const {
+    if ( m_db ) {
+        std::string s = m_db->lookup( toSlice( "lastTransactionHash" ) );
+        return h256( s, h256::ConstructFromStringType::FromBinary );
+    }
+    return dev::h256();
+}
+void OverlayDB::setLastTransactionHash( dev::h256 const& _h ) {
+    lastTransactionHash_ = _h;
+}
+
 
 }  // namespace skale

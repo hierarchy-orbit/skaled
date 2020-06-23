@@ -872,14 +872,14 @@ ImportRoute BlockChain::insertBlockAndExtras( VerifiedBlockRef const& _block,
     }
 
     if ( m_lastBlockHash != newLastBlockHash )
-        DEV_WRITE_GUARDED( x_lastBlockHash )
-    {
-        MICROPROFILE_SCOPEI( "insertBlockAndExtras", "m_lastBlockHash", MP_LIGHTGOLDENROD );
+        DEV_WRITE_GUARDED( x_lastBlockHash ) {
+            MICROPROFILE_SCOPEI( "insertBlockAndExtras", "m_lastBlockHash", MP_LIGHTGOLDENROD );
 
-        m_lastBlockHash = newLastBlockHash;
-        m_lastBlockNumber = newLastBlockNumber;
-        extrasWriteBatch->insert( db::Slice( "best" ), db::Slice( ( char const* ) &m_lastBlockHash, 32 ) );
-    }
+            m_lastBlockHash = newLastBlockHash;
+            m_lastBlockNumber = newLastBlockNumber;
+            extrasWriteBatch->insert(
+                db::Slice( "best" ), db::Slice( ( char const* ) &m_lastBlockHash, 32 ) );
+        }
 
     try {
         MICROPROFILE_SCOPEI( "m_extrasDB", "commit", MP_PLUM );

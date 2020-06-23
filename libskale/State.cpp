@@ -817,6 +817,8 @@ std::pair< ExecutionResult, TransactionReceipt > State::execute( EnvInfo const& 
         }
         // TODO: review logic|^
 
+        // TODO direct access to m_db_ptr and then indirect through commit() is not good
+        m_db_ptr->setLastTransactionHash( _t.sha3() );
         removeEmptyAccounts = _envInfo.number() >= _sealEngine.chainParams().EIP158ForkBlock;
         commit( removeEmptyAccounts ? State::CommitBehaviour::RemoveEmptyAccounts :
                                       State::CommitBehaviour::KeepEmptyAccounts );
