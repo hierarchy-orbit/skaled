@@ -270,6 +270,7 @@ unsigned BlockChain::open( fs::path const& _path, WithExisting _we ) {
         details.size = r.size();
         m_details[m_genesisHash] = details;
         m_extrasDB->insert( toSlice( m_genesisHash, ExtraDetails ), ( db::Slice ) dev::ref( r ) );
+        m_blocksDB->insert( db::Slice( "lastBlock" ), toSlice( 0ll ) );
         assert( isKnown( gb.hash() ) );
     }
 
@@ -710,6 +711,7 @@ ImportRoute BlockChain::insertBlockAndExtras( VerifiedBlockRef const& _block,
         _performanceLogger.onStageFinished( "collation" );
 
         blocksWriteBatch->insert( toSlice( _block.info.hash() ), db::Slice( _block.block ) );
+        blocksWriteBatch->insert( db::Slice( "lastBlock" ), toSlice( _block.info.number() ) );
 
         DEV_READ_GUARDED( x_details )
         extrasWriteBatch->insert( toSlice( _block.info.parentHash(), ExtraDetails ),
