@@ -869,6 +869,16 @@ ImportRoute BlockChain::insertBlockAndExtras( VerifiedBlockRef const& _block,
         exit( -1 );
     }
 
+    if ( m_lastBlockHash != newLastBlockHash )
+        DEV_WRITE_GUARDED( x_lastBlockHash )
+    {
+        MICROPROFILE_SCOPEI( "insertBlockAndExtras", "m_lastBlockHash", MP_LIGHTGOLDENROD );
+
+        m_lastBlockHash = newLastBlockHash;
+        m_lastBlockNumber = newLastBlockNumber;
+        extrasWriteBatch->insert( db::Slice( "best" ), db::Slice( ( char const* ) &m_lastBlockHash, 32 ) );
+    }
+
     try {
         MICROPROFILE_SCOPEI( "m_extrasDB", "commit", MP_PLUM );
         m_extrasDB->commit( std::move( extrasWriteBatch ) );
@@ -897,25 +907,6 @@ ImportRoute BlockChain::insertBlockAndExtras( VerifiedBlockRef const& _block,
         exit( -1 );
     }
 #endif  // ETH_PARANOIA
-
-    if ( m_lastBlockHash != newLastBlockHash )
-        DEV_WRITE_GUARDED( x_lastBlockHash ) {
-            MICROPROFILE_SCOPEI( "insertBlockAndExtras", "m_lastBlockHash", MP_LIGHTGOLDENROD );
-
-            m_lastBlockHash = newLastBlockHash;
-            m_lastBlockNumber = newLastBlockNumber;
-            try {
-                m_extrasDB->insert(
-                    db::Slice( "best" ), db::Slice( ( char const* ) &m_lastBlockHash, 32 ) );
-            } catch ( boost::exception const& ex ) {
-                cwarn << "Error writing to extras database: "
-                      << boost::diagnostic_information( ex );
-                cout << "Put" << toHex( bytesConstRef( db::Slice( "best" ) ) ) << "=>"
-                     << toHex( bytesConstRef( db::Slice( ( char const* ) &m_lastBlockHash, 32 ) ) );
-                cwarn << "Fail writing to extras database. Bombing out.";
-                exit( -1 );
-            }
-        }
 
 #if ETH_PARANOIA
     checkConsistency();
