@@ -39,6 +39,16 @@ void ExitHandler::exitHandler( int s ) {
     std::this_thread::sleep_for( chrono::milliseconds( 2000 ) );
 }
 
+int ExitHandler::getExitCode() {
+    if ( m_signal == -1 ) {
+        return m_code;
+    }
+    if ( m_signal == SIGINT || m_signal == SIGTERM ) {
+        return EXIT_SUCCESS;
+    }
+    return EXIT_FAILURE;
+}
+
 void InvariantChecker::checkInvariants(
     HasInvariants const* _this, char const* _fn, char const* _file, int _line, bool _pre ) {
     if ( !_this->invariants() ) {
@@ -96,5 +106,6 @@ string inUnits( bigint const& _b, strings const& _units ) {
 
 volatile bool ExitHandler::s_shouldExit = false;
 volatile int ExitHandler::m_signal = -1;
+volatile int ExitHandler::m_code = -1;
 
 }  // namespace dev

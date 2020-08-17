@@ -335,10 +335,12 @@ public:
     static void exitHandler( int s );
     static bool shouldExit() { return s_shouldExit; }
     static int getSignal() { return m_signal; }
+    static int getExitCode();
 
 private:
     static volatile bool s_shouldExit;
     static volatile int m_signal;
+    static volatile int m_code;
 };
 
 }  // namespace dev

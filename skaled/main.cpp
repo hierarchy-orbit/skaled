@@ -2261,7 +2261,7 @@ int main( int argc, char** argv ) try {
     //    clog( VerbosityInfo, "main" ) << cc::debug( "Stopping task dispatcher..." );
     //    skutils::dispatch::shutdown();
     //    clog( VerbosityInfo, "main" ) << cc::debug( "Done, task dispatcher stopped" );
-    bool returnCode = ExitHandler::getSignal() != SIGINT && ExitHandler::getSignal() != SIGTERM;
+    int returnCode = ExitHandler::getExitCode();
     return returnCode;
 } catch ( const Client::CreationException& ex ) {
     clog( VerbosityError, "main" ) << dev::nested_exception_what( ex );
