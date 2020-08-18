@@ -51,4 +51,5 @@ protected:
     const fs::path m_rotationFilePath;
 
     static const std::string rotation_file_name;
+    static const size_t rotation_exit_code;
 };

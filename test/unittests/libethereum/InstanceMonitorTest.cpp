@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE( test_isTimeToRotate_true ) {
 BOOST_AUTO_TEST_CASE( test_rotation ) {
     instanceMonitor.initRotationParams(0);
     instanceMonitor.performRotation();
-    BOOST_REQUIRE( ExitHandler::getSignal() == SIGTERM );
+    BOOST_REQUIRE( ExitHandler::getExitCode() == 32 );
     BOOST_REQUIRE( !( fs::exists( instanceMonitor.getRotationFilePath() ) ) );
 }
 

@@ -33,10 +33,11 @@ using namespace dev;
 namespace fs = boost::filesystem;
 
 const std::string InstanceMonitor::rotation_file_name = "rotation.txt";
+const std::size_t InstanceMonitor::rotation_exit_code = 32;
 
 void InstanceMonitor::performRotation() {
     fs::remove( m_rotationFilePath );
-    ExitHandler::exitBySignal( SIGTERM );
+    ExitHandler::exitByCode( rotation_exit_code );
 }
 
 void InstanceMonitor::initRotationParams( uint64_t _finishTimestamp ) {
