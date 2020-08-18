@@ -173,7 +173,7 @@ void ConsensusExtImpl::createBlock(
 }
 
 void ConsensusExtImpl::terminateApplication() {
-    dev::ExitHandler::exitHandler( SIGINT );
+    dev::ExitHandler::exitBySignal( SIGINT );
 }
 
 SkaleHost::SkaleHost( dev::eth::Client& _client, const ConsensusFactory* _consFactory ) try
@@ -494,7 +494,7 @@ void SkaleHost::createBlock( const ConsensusExtFace::transactions_vector& _appro
         //        _blockID ) )
         //                                   .stateRoot() ) != _stateRoot ) {
         //            cerror << "StateRoot assertion failed. Clean up /data_dir. Exiting";
-        //            ExitHandler::exitHandler( SIGABRT );
+        //            ExitHandler::exitBySignal( SIGABRT );
         //        }
         assert( dev::h256::Arith(
                     this->m_client.blockInfo( this->m_client.hashFromNumber( _blockID - 1 ) )

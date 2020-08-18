@@ -332,7 +332,8 @@ int64_t utcTime();
 
 class ExitHandler {
 public:
-    static void exitHandler( int s );
+    static void exitBySignal( int signal );
+    static void exitByCode( int code );
     static bool shouldExit() { return s_shouldExit; }
     static int getSignal() { return m_signal; }
     static int getExitCode();

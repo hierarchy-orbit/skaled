@@ -36,7 +36,7 @@ const std::string InstanceMonitor::rotation_file_name = "rotation.txt";
 
 void InstanceMonitor::performRotation() {
     fs::remove( m_rotationFilePath );
-    ExitHandler::exitHandler( SIGTERM );
+    ExitHandler::exitBySignal( SIGTERM );
 }
 
 void InstanceMonitor::initRotationParams( uint64_t _finishTimestamp ) {

@@ -32,8 +32,15 @@ char const* Version = skale_get_buildinfo()->project_version;
 bytes const NullBytes;
 std::string const EmptyString;
 
-void ExitHandler::exitHandler( int s ) {
-    m_signal = s;
+void ExitHandler::exitBySignal( int signal ) {
+    m_signal = signal;
+    s_shouldExit = true;
+    // HACK wait for loop in main to send exit call to consensus et al.
+    std::this_thread::sleep_for( chrono::milliseconds( 2000 ) );
+}
+
+void ExitHandler::exitByCode( int code ) {
+    m_code = code;
     s_shouldExit = true;
     // HACK wait for loop in main to send exit call to consensus et al.
     std::this_thread::sleep_for( chrono::milliseconds( 2000 ) );

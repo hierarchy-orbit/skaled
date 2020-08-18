@@ -1341,8 +1341,8 @@ int main( int argc, char** argv ) try {
 
     ExitHandler exitHandler;
 
-    signal( SIGTERM, &ExitHandler::exitHandler );
-    signal( SIGINT, &ExitHandler::exitHandler );
+    signal( SIGTERM, &ExitHandler::exitBySignal );
+    signal( SIGINT, &ExitHandler::exitBySignal );
 
     //    dev::WebThreeDirect web3( WebThreeDirect::composeClientVersion( "skaled" ), getDataDir(),
     //    "",
@@ -2227,7 +2227,7 @@ int main( int argc, char** argv ) try {
     if ( bEnabledShutdownViaWeb3 ) {
         clog( VerbosityInfo, "main" ) << cc::debug( "Enabling programmatic shutdown via Web3..." );
         dev::rpc::Skale::enableWeb3Shutdown( true );
-        dev::rpc::Skale::onShutdownInvoke( []() { ExitHandler::exitHandler( SIGABRT ); } );
+        dev::rpc::Skale::onShutdownInvoke( []() { ExitHandler::exitBySignal( SIGABRT ); } );
         clog( VerbosityInfo, "main" )
             << cc::debug( "Done, programmatic shutdown via Web3 is enabled" );
     } else {
