@@ -31,7 +31,7 @@ target_include_directories( skale PRIVATE
 	${SKUTILS_INCLUDE_DIRS}
 	)
 target_include_directories( skale PUBLIC
-		${CMAKE_CURRENT_SOURCE_DIR}/../libconsensus/libBLS/
+                ${CMAKE_CURRENT_SOURCE_DIR}/../libconsensus/libBLS/
 		${BLS_WITH_FF_INCLUDE_DIR}
 		${BLS_INCLUDE_DIRS}
 		${CMAKE_SOURCE_DIR}/libconsensus/libjson-rpc-cpp/build/gen/jsonrpccpp/common/

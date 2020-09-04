@@ -130,12 +130,15 @@ void DefaultConsensusFactory::fillSgxInfo( ConsensusEngine& consensus ) const {
         std::make_shared< std::vector< std::shared_ptr< std::vector< std::string > > > >(
             blsPublicKeys );
 
+    auto previousPublicKeysPtr = std::make_shared< std::vector< std::array< std::string, 4 > > >(
+        m_client.chainParams().sChain.previousPublicKeys );
+
     size_t n = m_client.chainParams().sChain.nodes.size();
     size_t t = ( 2 * n + 1 ) / 3;
 
     try {
         consensus.setSGXKeyInfo( sgxServerUrl, sgxSSLKeyFilePath, sgxSSLCertFilePath, ecdsaKeyName,
-            ecdsaPublicKeys, blsKeyName, blsPublicKeysPtr, t, n );
+            ecdsaPublicKeys, blsKeyName, blsPublicKeysPtr, previousPublicKeysPtr, t, n );
     } catch ( const std::exception& ex ) {
         std::throw_with_nested( ex.what() );
     } catch ( const boost::exception& ex ) {

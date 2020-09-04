@@ -129,6 +129,7 @@ public:
     bool freeContractDeployment = false;
     int emptyBlockIntervalMs = -1;
     size_t t = 1;
+    std::vector< std::array< std::string, 4 > > previousPublicKeys;
 
     SChain() {
         name = "TestChain";

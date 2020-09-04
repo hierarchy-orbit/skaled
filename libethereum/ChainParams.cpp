@@ -196,6 +196,19 @@ ChainParams ChainParams::loadConfig(
         if ( sChainObj.count( "freeContractDeployment" ) )
             s.freeContractDeployment = sChainObj.at( "freeContractDeployment" ).get_bool();
 
+        if ( sChainObj.count( "previousPublicKeys" ) ) {
+            auto previousPublicKeys = sChainObj.at( "previousPublicKeys" ).get_array();
+            for ( auto previousPublicKey : previousPublicKeys ) {
+                auto previousPublicKeyObj = previousPublicKey.get_obj();
+                std::array< std::string, 4 > current;
+                for ( size_t i = 0; i < 4; ++i ) {
+                    current[i] =
+                        previousPublicKeyObj.at( "blsPublicKey" + std::to_string( i ) ).get_str();
+                }
+                s.previousPublicKeys.push_back( current );
+            }
+        }
+
         for ( auto nodeConf : sChainObj.at( "nodes" ).get_array() ) {
             auto nodeConfObj = nodeConf.get_obj();
             sChainNode node{};
