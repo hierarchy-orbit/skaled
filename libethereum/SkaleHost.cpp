@@ -174,8 +174,8 @@ void ConsensusExtImpl::createBlock(
     uint32_t /*_timeStampMs */, uint64_t _blockID, u256 _gasPrice, u256 _stateRoot,
     uint64_t _winningNodeIndex ) {
     MICROPROFILE_SCOPEI( "ConsensusExtFace", "createBlock", MP_INDIANRED );
-    m_host.createBlock(
-        _approvedTransactions, _timeStamp, _blockID, _gasPrice, _stateRoot, _winningNodeIndex );
+    m_host.createBlock( ConsensusExtFace::transactions_vector(), _timeStamp, _blockID, _gasPrice,
+        _stateRoot, _winningNodeIndex );
 }
 
 void ConsensusExtImpl::terminateApplication() {
