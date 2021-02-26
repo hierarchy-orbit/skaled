@@ -170,7 +170,7 @@ ConsensusExtFace::transactions_vector ConsensusExtImpl::pendingTransactions(
 }
 
 void ConsensusExtImpl::createBlock(
-    const ConsensusExtFace::transactions_vector& _approvedTransactions, uint64_t _timeStamp,
+    const ConsensusExtFace::transactions_vector& /*_approvedTransactions*/, uint64_t _timeStamp,
     uint32_t /*_timeStampMs */, uint64_t _blockID, u256 _gasPrice, u256 _stateRoot,
     uint64_t _winningNodeIndex ) {
     MICROPROFILE_SCOPEI( "ConsensusExtFace", "createBlock", MP_INDIANRED );
